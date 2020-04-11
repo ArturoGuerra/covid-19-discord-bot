@@ -1,13 +1,22 @@
-import CovidAPI, { Global, Country } from './coronatime';
+import CovidAPI, { Global, Country } from './covidapi';
+import ConfigLoader, { Config } from './config';
+import Bot from './bot';
+import commands from './bot/commands';
 
+const config: Config = ConfigLoader();
 const covidClient: CovidAPI = new CovidAPI();
-
-async function main() {
+const bot: Bot = new Bot(config, covidClient);
+covidClient.populate();
+setInterval(async ()=> {
+   console.log('Updating stats...');
    await covidClient.populate();
+}, 43200000);
 
-   let global: Global = await covidClient.getGlobal();
-   console.log(global);
-}
+commands.forEach(command => {
+   console.log(`Registering command: ${command.name}`);
+   bot.registerCommand(command);
+});
 
+bot.on('message', bot.commandHandler);
 
-main();
+bot.start();

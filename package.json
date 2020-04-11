@@ -11,6 +11,7 @@
   "author": "ar2roguerra@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "discord.js": "^12.1.1"
   }
 }

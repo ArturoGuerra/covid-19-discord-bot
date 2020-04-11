@@ -28,6 +28,13 @@ interface Data {
     Date:   string;
 }
 
+class NotInitialized extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'NotInitialized';
+    }
+}
+
 
 class CovidAPI {
     rest: AxiosInstance;
@@ -49,13 +56,24 @@ class CovidAPI {
     }
 
     async getCountry(name: string): Promise<Country> {
-        return this.data.Countries.find(item => item.Country.toLowerCase() == name.toLowerCase());
+        let result: Country = this.data.Countries.find(item => { return item.Country.toLowerCase() === name.toLowerCase() || item.CountryCode.toLowerCase() === name.toLowerCase() });
+        if (result === undefined) {
+            throw new NotInitialized('Missing api data');
+        }
+
+        return result;
     }
 
     async getGlobal(): Promise<Global> {
-        return this.data.Global;
+        let result: Global = this.data.Global;
+        if (result === undefined) {
+            throw new NotInitialized('Missing api data');
+        }
+
+        return result;
+
     }
 }
 
-export { Data, Global, Country, CovidAPI }
-export default CovidAPI
+export { Data, Global, Country, CovidAPI, NotInitialized };
+export default CovidAPI;
