@@ -34,7 +34,9 @@ async function callback(client: Bot, message: Message, name: string, args: strin
         }
     }
 
-    message.channel.send(embed);
+    try {
+       message.channel.send(embed);
+    } catch(e) {}
 }
 
 const command: Command = {

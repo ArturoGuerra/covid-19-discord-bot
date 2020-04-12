@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: covid-19-bot
+    labels:
+        app: covid-19-bot
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: covid-19-bot
+    template:
+        metadata:
+            name: covid-19-bot
+            labels:
+                app: covid-19-bot
+        spec:
+            containers:
+                - name: covid-19-bot
+                  image: arturoguerra/covid-19-bot
+                  env:
+                    - name: TOKEN
+                      valueFrom:
+                        secretKeyRef:
+                            name: covid-19-bot
+                            key: token
+            
