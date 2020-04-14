@@ -10,7 +10,7 @@ covidClient.populate();
 setInterval(async ()=> {
    console.log('Updating stats...');
    await covidClient.populate();
-}, 43200000);
+}, 3600000);
 
 commands.forEach(command => {
    console.log(`Registering command: ${command.name}`);
